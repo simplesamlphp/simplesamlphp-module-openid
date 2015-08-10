@@ -4,10 +4,10 @@
  * Disable strict error reporting, since the OpenID library
  * used is PHP4-compatible, and not PHP5 strict-standards compatible.
  */
-SimpleSAML_Utilities::maskErrors(E_STRICT);
+sspmod_openid_Utils::maskErrors(E_STRICT);
 if (defined('E_DEPRECATED')) {
 	/* PHP 5.3 also has E_DEPRECATED. */
-	SimpleSAML_Utilities::maskErrors(constant('E_DEPRECATED'));
+	sspmod_openid_Utils::maskErrors(constant('E_DEPRECATED'));
 }
 
 /* Add the OpenID library search path. */
@@ -122,7 +122,7 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 		$id = SimpleSAML_Auth_State::saveState($state, 'openid:init');
 
 		$url = SimpleSAML_Module::getModuleURL('openid/consumer.php');
-		SimpleSAML_Utilities::redirectTrustedURL($url, array('AuthState' => $id));
+		\SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('AuthState' => $id));
 	}
 
 
@@ -162,7 +162,7 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 		if (!empty($this->realm)) {
 			return $this->realm;
 		} else {
-			return SimpleSAML_Utilities::selfURLhost();
+			return \SimpleSAML\Utils\HTTP::getSelfURLHost();
 		}
 	}
 
@@ -250,7 +250,7 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 
 			// For OpenID 2 failover to POST if redirect URL is longer than 2048
 			if ($should_send_redirect || strlen($redirect_url) <= 2048) {
-				SimpleSAML_Utilities::redirectTrustedURL($redirect_url);
+				\SimpleSAML\Utils\HTTP::redirectTrustedURL($redirect_url);
 				assert('FALSE');
 			}
 		}
@@ -280,7 +280,7 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 
 		$consumer = $this->getConsumer($state);
 
-		$return_to = SimpleSAML_Utilities::selfURL();
+		$return_to = \SimpleSAML\Utils\HTTP::getSelfURL();
 
 		// Complete the authentication process using the server's
 		// response.
