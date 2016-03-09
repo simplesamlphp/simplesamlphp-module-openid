@@ -121,7 +121,7 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 
 		$id = SimpleSAML_Auth_State::saveState($state, 'openid:init');
 
-		$url = SimpleSAML_Module::getModuleURL('openid/consumer.php');
+		$url = SimpleSAML\Module::getModuleURL('openid/consumer.php');
 		\SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('AuthState' => $id));
 	}
 
@@ -147,7 +147,7 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 	private function getReturnTo($stateId) {
 		assert('is_string($stateId)');
 
-		return SimpleSAML_Module::getModuleURL('openid/linkback.php', array(
+		return SimpleSAML\Module::getModuleURL('openid/linkback.php', array(
 			'AuthState' => $stateId,
 		));
 	}
@@ -335,12 +335,12 @@ class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 				if (preg_match("/^\w+:/",$axkey)) {
 					$attributes[$axkey] = (is_array($axvalue)) ? $axvalue : array($axvalue);
 				} else {
-					SimpleSAML_Logger::warning('Invalid attribute name in AX response: ' . var_export($axkey, TRUE));
+					SimpleSAML\Logger::warning('Invalid attribute name in AX response: ' . var_export($axkey, TRUE));
 				}
 			}
 		}
 
-		SimpleSAML_Logger::debug('OpenID Returned Attributes: '. implode(", ",array_keys($attributes)));
+		SimpleSAML\Logger::debug('OpenID Returned Attributes: '. implode(", ",array_keys($attributes)));
 
 		$state['Attributes'] = $attributes;
 		SimpleSAML_Auth_Source::completeAuth($state);
