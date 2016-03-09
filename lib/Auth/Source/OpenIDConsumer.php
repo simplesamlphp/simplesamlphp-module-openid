@@ -6,11 +6,11 @@
  */
 sspmod_openid_Utils::maskErrors(E_STRICT);
 if (defined('E_DEPRECATED')) {
-	/* PHP 5.3 also has E_DEPRECATED. */
+	// PHP 5.3 also has E_DEPRECATED
 	sspmod_openid_Utils::maskErrors(constant('E_DEPRECATED'));
 }
 
-/* Add the OpenID library search path. */
+// Add the OpenID library search path.
 set_include_path(get_include_path() . PATH_SEPARATOR . dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . '/lib');
 
 require_once('Auth/OpenID/AX.php');
@@ -23,7 +23,7 @@ require_once('Auth/OpenID/ServerRequest.php');
  * Authentication module which acts as an OpenID Consumer
  *
  * @author Andreas Åkre Solberg, <andreas.solberg@uninett.no>, UNINETT AS.
- * @package simpleSAMLphp
+ * @package SimpleSAMLphp
  */
 class sspmod_openid_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Source {
 

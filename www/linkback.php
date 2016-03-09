@@ -1,6 +1,6 @@
 <?php
 
-/* Find the authentication state. */
+// Find the authentication state
 if (!array_key_exists('AuthState', $_REQUEST) || empty($_REQUEST['AuthState'])) {
 	throw new SimpleSAML_Error_BadRequest('Missing mandatory parameter: AuthState');
 }
@@ -13,7 +13,7 @@ if ($authSource === NULL) {
 
 try {
 	$authSource->postAuth($state);
-	/* postAuth() should never return. */
+	// postAuth() should never return.
 	assert('FALSE');
 } catch (SimpleSAML_Error_Exception $e) {
 	SimpleSAML_Auth_State::throwException($state, $e);

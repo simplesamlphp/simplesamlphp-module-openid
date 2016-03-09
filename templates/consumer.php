@@ -8,7 +8,7 @@ $this->includeAtTemplateBase('includes/header.php');
 <style>
 input.openid-identifier {
    background: url(http://stat.livejournal.com/img/openid-inputicon.gif) no-repeat;
-/*   background-color: #fff; */
+// background-color: #fff;
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #aaa;
 	border-top: 1px solid #aaa;

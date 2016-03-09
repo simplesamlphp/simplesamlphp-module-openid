@@ -6,7 +6,7 @@
  * This class has the interface specified in the constructor of the
  * Auth_OpenID_Consumer class.
  *
- * @package simpleSAMLphp
+ * @package SimpleSAMLphp
  */
 class sspmod_openid_SessionStore {
 

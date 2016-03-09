@@ -1,6 +1,6 @@
 <?php
 
-/* The OpenID library relies on manual loading of classes. */
+// The OpenID library relies on manual loading of classes
 require_once('Auth/OpenID/Interface.php');
 require_once('Auth/OpenID/Association.php');
 
@@ -8,7 +8,7 @@ require_once('Auth/OpenID/Association.php');
  * Implementation of Auth_OpenID_OpenIDStore which saves the state in
  * an state-array.
  *
- * @package simpleSAMLphp
+ * @package SimpleSAMLphp
  */
 class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
 
@@ -175,7 +175,7 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
 
 		$this->associations[$server_url][$handle] = $association->serialize();
 
-		/* We rely on saveState saving with the same id as before. */
+		// We rely on saveState saving with the same id as before.
 		SimpleSAML_Auth_State::saveState($this->state, 'openid:auth');
 
 		return TRUE;
