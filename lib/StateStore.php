@@ -163,7 +163,7 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
 	 * @param Auth_OpenID_Association $association  The association which should be stored.
 	 * @return bool  TRUE if the association is stored, FALSE if not.
 	 */
-	public function storeAssociation($server_url, Auth_OpenID_Association $association) {
+	public function storeAssociation($server_url, $association) {
 		assert('is_string($server_url)');
 
 		if (!array_key_exists($server_url, $this->associations)) {
