@@ -10,9 +10,8 @@ require_once('Auth/OpenID/Association.php');
  *
  * @package SimpleSAMLphp
  */
-class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
-
-
+class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore
+{
     /**
      * Reference to the state array.
      */
@@ -30,7 +29,8 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
      *
      * @param array &$state  Reference to the state array.
      */
-    public function __construct(&$state) {
+    public function __construct(&$state)
+    {
         assert('is_array($state)');
 
         $this->state =& $state;
@@ -51,8 +51,9 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
      *
      * @return bool  This function always returns TRUE.
      */
-    public function useNonce($server_url, $timestamp, $salt) {
-        return TRUE;
+    public function useNonce($server_url, $timestamp, $salt)
+    {
+        return true;
     }
 
 
@@ -66,7 +67,8 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
      * @param string $server_url  The server.
      * @return array  Associative array with associations.
      */
-    private function getServerAssociations($server_url) {
+    private function getServerAssociations($server_url)
+    {
         assert('is_string($server_url)');
 
         if (!array_key_exists($server_url, $this->associations)) {
@@ -78,7 +80,7 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
 
             $association = Auth_OpenID_Association::deserialize(
                 'Auth_OpenID_Association', $association);
-            if ($association === NULL) {
+            if ($association === null) {
                 continue;
             }
 
@@ -100,13 +102,14 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
      * @param string $handle  The handle of the association.
      * @return Auth_OpenID_Association|NULL  The association object, if it is found.
      */
-    private function readAssociation($server_url, $handle) {
+    private function readAssociation($server_url, $handle)
+    {
         assert('is_string($server_url)');
         assert('is_string($handle)');
 
         $sassoc = $this->getServerAssociations($server_url);
         if (!array_key_exists($handle, $sassoc)) {
-            return NULL;
+            return null;
         }
 
         return $sassoc[$handle];
@@ -123,11 +126,12 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
      * @param string|NULL $handle  The association handle.
      * @return Auth_OpenID_Association|NULL  The association object, if it is found.
      */
-    public function getAssociation($server_url, $handle = NULL) {
+    public function getAssociation($server_url, $handle = null)
+    {
         assert('is_string($server_url)');
         assert('is_null($handle) || is_string($handle)');
 
-        if ($handle !== NULL) {
+        if ($handle !== null) {
             return $this->readAssociation($server_url, $handle);
         }
 
@@ -136,9 +140,9 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
 
         $sassoc = $this->getServerAssociations($server_url);
 
-        $recentAssoc = NULL;
+        $recentAssoc = null;
         foreach ($sassoc as $handle => $association) {
-            if ($recentAssoc === NULL) {
+            if ($recentAssoc === null) {
                 /* No $recentAssoc - this is the most recent association. */
                 $recentAssoc = $association;
                 continue;
@@ -162,7 +166,8 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
      * @param Auth_OpenID_Association $association  The association which should be stored.
      * @return bool  TRUE if the association is stored, FALSE if not.
      */
-    public function storeAssociation($server_url, $association) {
+    public function storeAssociation($server_url, $association)
+    {
         assert('is_string($server_url)');
 
         if (!array_key_exists($server_url, $this->associations)) {
@@ -177,9 +182,6 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore{
         // We rely on saveState saving with the same id as before.
         SimpleSAML_Auth_State::saveState($this->state, 'openid:auth');
 
-        return TRUE;
+        return true;
     }
-
 }
-
-?>

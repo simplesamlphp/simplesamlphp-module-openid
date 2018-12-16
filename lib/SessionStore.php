@@ -8,15 +8,16 @@
  *
  * @package SimpleSAMLphp
  */
-class sspmod_openid_SessionStore {
-
+class sspmod_openid_SessionStore
+{
     /**
      * Retrieve a key from the session store.
      *
      * @param string $key  The key we should retrieve.
      * @return mixed  The value stored with the given key, or NULL if the key isn't found.
      */
-    public function get($key) {
+    public function get($key)
+    {
         assert('is_string($key)');
 
         $session = SimpleSAML_Session::getSessionFromRequest();
@@ -30,7 +31,8 @@ class sspmod_openid_SessionStore {
      * @param string $key  The key we should save.
      * @param mixed NULL $value  The value we should save.
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         assert('is_string($key)');
 
         $session = SimpleSAML_Session::getSessionFromRequest();
@@ -43,11 +45,11 @@ class sspmod_openid_SessionStore {
      *
      * @param string $key  The key we should delete.
      */
-    public function del($key) {
+    public function del($key)
+    {
         assert('is_string($key)');
 
         $session = SimpleSAML_Session::getSessionFromRequest();
         $session->deleteData('openid.session', $key);
     }
-
 }

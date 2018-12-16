@@ -8,7 +8,6 @@
  */
 class sspmod_openid_Utils
 {
-
     /**
      * List of log levels.
      *

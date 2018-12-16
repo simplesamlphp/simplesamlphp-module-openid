@@ -9,11 +9,11 @@ $authState = $_REQUEST['AuthState'];
 $state = SimpleSAML_Auth_State::loadState($authState, 'openid:init');
 $sourceId = $state['openid:AuthId'];
 $authSource = SimpleSAML_Auth_Source::getById($sourceId);
-if ($authSource === NULL) {
+if ($authSource === null) {
     throw new SimpleSAML_Error_BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
 }
 
-$error = NULL;
+$error = null;
 try {
     if (!empty($_GET['openid_url'])) {
         $authSource->doAuth($state, (string)$_GET['openid_url']);

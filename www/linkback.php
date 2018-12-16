@@ -7,14 +7,14 @@ if (!array_key_exists('AuthState', $_REQUEST) || empty($_REQUEST['AuthState'])) 
 $state = SimpleSAML_Auth_State::loadState($_REQUEST['AuthState'], 'openid:auth');
 $sourceId = $state['openid:AuthId'];
 $authSource = SimpleSAML_Auth_Source::getById($sourceId);
-if ($authSource === NULL) {
+if ($authSource === null) {
     throw new SimpleSAML_Error_BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
 }
 
 try {
     $authSource->postAuth($state);
     // postAuth() should never return.
-    assert('FALSE');
+    assert(false);
 } catch (SimpleSAML_Error_Exception $e) {
     SimpleSAML_Auth_State::throwException($state, $e);
 } catch (Exception $e) {
