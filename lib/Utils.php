@@ -16,7 +16,7 @@ class Utils
      *
      * @var array
      */
-    private static $logLevelStack = array();
+    private static $logLevelStack = [];
 
 
     /**
@@ -47,7 +47,7 @@ class Utils
         }
 
         $currentEnabled = error_reporting();
-        self::$logLevelStack[] = array($currentEnabled, self::$logMask);
+        self::$logLevelStack[] = [$currentEnabled, self::$logMask];
 
         $currentEnabled &= ~$mask;
         error_reporting($currentEnabled);

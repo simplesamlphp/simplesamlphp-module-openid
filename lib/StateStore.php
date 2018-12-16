@@ -36,7 +36,7 @@ class StateStore extends \Auth_OpenID_OpenIDStore
         $this->state =& $state;
 
         if (!array_key_exists('openid:Assocs', $state)) {
-            $state['openid:Assocs'] = array();
+            $state['openid:Assocs'] = [];
         }
 
         $this->associations =& $state['openid:Assocs'];
@@ -72,10 +72,10 @@ class StateStore extends \Auth_OpenID_OpenIDStore
         assert(is_string($server_url));
 
         if (!array_key_exists($server_url, $this->associations)) {
-            return array();
+            return [];
         }
 
-        $ret = array();
+        $ret = [];
         foreach ($this->associations[$server_url] as $handle => $association) {
 
             $association = \Auth_OpenID_Association::deserialize(
@@ -171,7 +171,7 @@ class StateStore extends \Auth_OpenID_OpenIDStore
         assert(is_string($server_url));
 
         if (!array_key_exists($server_url, $this->associations)) {
-            $this->associations[$server_url] = array();
+            $this->associations[$server_url] = [];
         }
 
         $handle = $association->handle;

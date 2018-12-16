@@ -91,15 +91,15 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         $this->target = $cfgParse->getString('target', null);
         $this->realm = $cfgParse->getString('realm', null);
 
-        $this->optionalAttributes = $cfgParse->getArray('attributes.optional', array());
-        $this->requiredAttributes = $cfgParse->getArray('attributes.required', array());
+        $this->optionalAttributes = $cfgParse->getArray('attributes.optional', []);
+        $this->requiredAttributes = $cfgParse->getArray('attributes.required', []);
 
-        $this->optionalAXAttributes = $cfgParse->getArray('attributes.ax_optional', array());
-        $this->requiredAXAttributes = $cfgParse->getArray('attributes.ax_required', array());
+        $this->optionalAXAttributes = $cfgParse->getArray('attributes.ax_optional', []);
+        $this->requiredAXAttributes = $cfgParse->getArray('attributes.ax_required', []);
 
         $this->validateSReg = $cfgParse->getBoolean('sreg.validate', true);
 
-        $this->extensionArgs = $cfgParse->getArray('extension.args', array());
+        $this->extensionArgs = $cfgParse->getArray('extension.args', []);
 
         $this->preferHttpRedirect = $cfgParse->getBoolean('prefer_http_redirect', false);
     }
@@ -126,7 +126,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         $id = \SimpleSAML\Auth\State::saveState($state, 'openid:init');
 
         $url = \SimpleSAML\Module::getModuleURL('openid/consumer.php');
-        \SimpleSAML\Utils\HTTP::redirectTrustedURL($url, array('AuthState' => $id));
+        \SimpleSAML\Utils\HTTP::redirectTrustedURL($url, ['AuthState' => $id]);
     }
 
 
@@ -153,9 +153,9 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
     {
         assert(is_string($stateId));
 
-        return \SimpleSAML\Module::getModuleURL('openid/linkback.php', array(
+        return \SimpleSAML\Module::getModuleURL('openid/linkback.php', [
             'AuthState' => $stateId,
-        ));
+        ]);
     }
 
 
@@ -206,7 +206,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         }
 
         // Create attribute request object
-        $ax_attribute = array();
+        $ax_attribute = [];
 
         foreach($this->requiredAXAttributes as $attr) {
             $ax_attribute[] = \Auth_OpenID_AX_AttrInfo::make($attr, 1, true);
@@ -265,7 +265,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
         // Generate form markup and render it.
         $form_id = 'openid_message';
-        $form_html = $auth_request->formMarkup($this->getTrustRoot(), $this->getReturnTo($stateId), false, array('id' => $form_id));
+        $form_html = $auth_request->formMarkup($this->getTrustRoot(), $this->getReturnTo($stateId), false, ['id' => $form_id]);
 
         // Display an error if the form markup couldn't be generated; otherwise, render the HTML.
         if (\Auth_OpenID::isFailure($form_html)) {
@@ -311,15 +311,15 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         // returned).
         $openid = $response->identity_url;
 
-        $attributes = array('openid' => array($openid));
-        $attributes['openid.server_url'] = array($response->endpoint->server_url);
+        $attributes = ['openid' => [$openid]];
+        $attributes['openid.server_url'] = [$response->endpoint->server_url];
 
         if ($response->endpoint->canonicalID) {
-            $attributes['openid.canonicalID'] = array($response->endpoint->canonicalID);
+            $attributes['openid.canonicalID'] = [$response->endpoint->canonicalID];
         }
 
         if ($response->endpoint->local_id) {
-                $attributes['openid.local_id'] = array($response->endpoint->local_id);
+                $attributes['openid.local_id'] = [$response->endpoint->local_id];
         }
 
         $sreg_resp = \Auth_OpenID_SRegResponse::fromSuccessResponse($response, $this->validateSReg);
@@ -328,7 +328,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         if (is_array($sregresponse) && count($sregresponse) > 0) {
             $attributes['openid.sregkeys'] = array_keys($sregresponse);
             foreach ($sregresponse AS $sregkey => $sregvalue) {
-                $attributes['openid.sreg.' . $sregkey] = array($sregvalue);
+                $attributes['openid.sreg.' . $sregkey] = [$sregvalue];
             }
         }
 
@@ -342,7 +342,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
             $attributes['openid.axkeys'] = array_keys($axresponse);
             foreach ($axresponse AS $axkey => $axvalue) {
                 if (preg_match("/^\w+:/",$axkey)) {
-                    $attributes[$axkey] = (is_array($axvalue)) ? $axvalue : array($axvalue);
+                    $attributes[$axkey] = (is_array($axvalue)) ? $axvalue : [$axvalue];
                 } else {
                     \SimpleSAML\Logger::warning('Invalid attribute name in AX response: ' . var_export($axkey, true));
                 }
