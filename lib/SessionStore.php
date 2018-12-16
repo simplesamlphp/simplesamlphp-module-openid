@@ -31,7 +31,7 @@ class SessionStore
      * Save a value to the session store under the given key.
      *
      * @param string $key  The key we should save.
-     * @param mixed NULL $value  The value we should save.
+     * @param mixed|NULL $value  The value we should save.
      */
     public function set($key, $value)
     {
