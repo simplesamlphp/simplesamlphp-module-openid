@@ -114,7 +114,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
             $this->doAuth($state, $this->target);
 
             /* doAuth() never returns. */
-            assert('false');
+            assert(false);
         }
 
         $id = SimpleSAML_Auth_State::saveState($state, 'openid:init');
@@ -253,7 +253,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
             // For OpenID 2 failover to POST if redirect URL is longer than 2048
             if ($should_send_redirect || strlen($redirect_url) <= 2048) {
                 \SimpleSAML\Utils\HTTP::redirectTrustedURL($redirect_url);
-                assert('false');
+                assert(false);
             }
         }
 

@@ -18,7 +18,7 @@ class sspmod_openid_SessionStore
      */
     public function get($key)
     {
-        assert('is_string($key)');
+        assert(is_string($key));
 
         $session = SimpleSAML_Session::getSessionFromRequest();
         return $session->getData('openid.session', $key);
@@ -33,7 +33,7 @@ class sspmod_openid_SessionStore
      */
     public function set($key, $value)
     {
-        assert('is_string($key)');
+        assert(is_string($key));
 
         $session = SimpleSAML_Session::getSessionFromRequest();
         $session->setData('openid.session', $key, $value);
@@ -47,7 +47,7 @@ class sspmod_openid_SessionStore
      */
     public function del($key)
     {
-        assert('is_string($key)');
+        assert(is_string($key));
 
         $session = SimpleSAML_Session::getSessionFromRequest();
         $session->deleteData('openid.session', $key);

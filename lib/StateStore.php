@@ -29,10 +29,8 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore
      *
      * @param array &$state  Reference to the state array.
      */
-    public function __construct(&$state)
+    public function __construct(array &$state)
     {
-        assert('is_array($state)');
-
         $this->state =& $state;
 
         if (!array_key_exists('openid:Assocs', $state)) {
@@ -69,7 +67,7 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore
      */
     private function getServerAssociations($server_url)
     {
-        assert('is_string($server_url)');
+        assert(is_string($server_url));
 
         if (!array_key_exists($server_url, $this->associations)) {
             return array();
@@ -104,8 +102,8 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore
      */
     private function readAssociation($server_url, $handle)
     {
-        assert('is_string($server_url)');
-        assert('is_string($handle)');
+        assert(is_string($server_url));
+        assert(is_string($handle));
 
         $sassoc = $this->getServerAssociations($server_url);
         if (!array_key_exists($handle, $sassoc)) {
@@ -128,8 +126,8 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore
      */
     public function getAssociation($server_url, $handle = null)
     {
-        assert('is_string($server_url)');
-        assert('is_null($handle) || is_string($handle)');
+        assert(is_string($server_url));
+        assert(is_null($handle) || is_string($handle));
 
         if ($handle !== null) {
             return $this->readAssociation($server_url, $handle);
@@ -168,14 +166,14 @@ class sspmod_openid_StateStore extends Auth_OpenID_OpenIDStore
      */
     public function storeAssociation($server_url, $association)
     {
-        assert('is_string($server_url)');
+        assert(is_string($server_url));
 
         if (!array_key_exists($server_url, $this->associations)) {
             $this->associations[$server_url] = array();
         }
 
         $handle = $association->handle;
-        assert('is_string($handle)');
+        assert(is_string($handle));
 
         $this->associations[$server_url][$handle] = $association->serialize();
 
