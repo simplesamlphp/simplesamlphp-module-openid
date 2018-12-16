@@ -38,7 +38,7 @@ div.error {
 }
 </style>
 
-    <?php if (isset($this->data['error'])) { print "<div class=\"error\">" . $this->data['error'] . "</div>"; } ?>
+    <?php if (isset($this->data['error'])) { print "<div class=\"error\">".$this->data['error']."</div>"; } ?>
 
         <form method="get" action="consumer.php">
             <fieldset>
