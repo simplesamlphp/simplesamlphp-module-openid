@@ -1,12 +1,13 @@
 <?php
 
+namespace SimpleSAML\Module\openid;
 
 /**
  * Helper class for OpenID.
  *
  * @author Jaime Perez, UNINETT AS <jaime.perez@uninett.no>
  */
-class sspmod_openid_Utils
+class Utils
 {
     /**
      * List of log levels.

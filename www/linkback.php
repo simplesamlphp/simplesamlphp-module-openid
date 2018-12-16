@@ -2,21 +2,21 @@
 
 // Find the authentication state
 if (!array_key_exists('AuthState', $_REQUEST) || empty($_REQUEST['AuthState'])) {
-    throw new SimpleSAML_Error_BadRequest('Missing mandatory parameter: AuthState');
+    throw new \SimpleSAML\Error\BadRequest('Missing mandatory parameter: AuthState');
 }
-$state = SimpleSAML_Auth_State::loadState($_REQUEST['AuthState'], 'openid:auth');
+$state = \SimpleSAML\Auth\State::loadState($_REQUEST['AuthState'], 'openid:auth');
 $sourceId = $state['openid:AuthId'];
-$authSource = SimpleSAML_Auth_Source::getById($sourceId);
+$authSource = \SimpleSAML\Auth\Source::getById($sourceId);
 if ($authSource === null) {
-    throw new SimpleSAML_Error_BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
+    throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
 }
 
 try {
     $authSource->postAuth($state);
     // postAuth() should never return.
     assert(false);
-} catch (SimpleSAML_Error_Exception $e) {
-    SimpleSAML_Auth_State::throwException($state, $e);
-} catch (Exception $e) {
-    SimpleSAML_Auth_State::throwException($state, new SimpleSAML_Error_AuthSource($sourceId, 'Error on OpenID linkback endpoint.', $e));
+} catch (\SimpleSAML\Error\Exception $e) {
+    \SimpleSAML\Auth\State::throwException($state, $e);
+} catch (\Exception $e) {
+    \SimpleSAML\Auth\State::throwException($state, new \SimpleSAML\Error\AuthSource($sourceId, 'Error on OpenID linkback endpoint.', $e));
 }

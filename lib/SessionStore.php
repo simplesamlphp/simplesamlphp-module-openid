@@ -1,5 +1,7 @@
 <?php
 
+namespace SimpleSAML\Module\openid;
+
 /**
  * Class which implements the openid session store logic.
  *
@@ -8,7 +10,7 @@
  *
  * @package SimpleSAMLphp
  */
-class sspmod_openid_SessionStore
+class SessionStore
 {
     /**
      * Retrieve a key from the session store.
@@ -20,7 +22,7 @@ class sspmod_openid_SessionStore
     {
         assert(is_string($key));
 
-        $session = SimpleSAML_Session::getSessionFromRequest();
+        $session = \SimpleSAML\Session::getSessionFromRequest();
         return $session->getData('openid.session', $key);
     }
 
@@ -35,7 +37,7 @@ class sspmod_openid_SessionStore
     {
         assert(is_string($key));
 
-        $session = SimpleSAML_Session::getSessionFromRequest();
+        $session = \SimpleSAML\Session::getSessionFromRequest();
         $session->setData('openid.session', $key, $value);
     }
 
@@ -49,7 +51,7 @@ class sspmod_openid_SessionStore
     {
         assert(is_string($key));
 
-        $session = SimpleSAML_Session::getSessionFromRequest();
+        $session = \SimpleSAML\Session::getSessionFromRequest();
         $session->deleteData('openid.session', $key);
     }
 }
