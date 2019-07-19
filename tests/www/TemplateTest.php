@@ -30,7 +30,7 @@ class TemplateTest extends TestCase
         $files = array_diff(scandir($basedir), ['.', '..']);
         foreach ($files as $file) {
             if (preg_match('/.twig$/', $file)) {
-                $t = new Template($config, 'aggregator2:'.basename($file));
+                $t = new Template($config, 'openid:'.basename($file));
                 ob_start();
                 try {
                     $t->show();
