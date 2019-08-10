@@ -111,7 +111,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      *
      * @param array &$state  Information about the current authentication.
      */
-    public function authenticate(array &$state)
+    public function authenticate(&$state)
     {
         $state['openid:AuthId'] = $this->authId;
 
