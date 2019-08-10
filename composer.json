@@ -24,7 +24,7 @@
         "openid/php-openid": "^2.3.0"
     },
     "require-dev": {
-        "simplesamlphp/simplesamlphp-test-framework": "~0.0.5"
+        "simplesamlphp/simplesamlphp-test-framework": "~0.0.8"
     }
 }
 
