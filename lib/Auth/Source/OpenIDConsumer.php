@@ -136,7 +136,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      * @param array &$state  The state array we are currently working with.
      * @return \Auth_OpenID_Consumer  The Auth_OpenID_Consumer instance.
      */
-    private function getConsumer(array &$state)
+    private function getConsumer(array &$state): \Auth_OpenID_Consumer
     {
         $store = new StateStore($state);
         $session = new SessionStore();
@@ -147,12 +147,11 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
     /**
      * Retrieve the URL we should return to after successful authentication.
      *
+     * @param string $stateId
      * @return string  The URL we should return to after successful authentication.
      */
-    private function getReturnTo($stateId)
+    private function getReturnTo(string $stateId): string
     {
-        assert(is_string($stateId));
-
         return \SimpleSAML\Module::getModuleURL('openid/linkback.php', [
             'AuthState' => $stateId,
         ]);
@@ -164,7 +163,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      *
      * @return string  The trust root.
      */
-    private function getTrustRoot()
+    private function getTrustRoot(): string
     {
         if (!empty($this->realm)) {
             return $this->realm;
@@ -179,11 +178,10 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      *
      * @param array &$state  The state array.
      * @param string $openid  The OpenID we should try to authenticate with.
+     * @return void
      */
-    public function doAuth(array &$state, $openid)
+    public function doAuth(array &$state, string $openid): void
     {
-        assert(is_string($openid));
-
         $stateId = \SimpleSAML\Auth\State::saveState($state, 'openid:auth');
 
         $consumer = $this->getConsumer($state);
@@ -283,10 +281,10 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      * Process an authentication response.
      *
      * @param array &$state  The state array.
+     * @return void
      */
-    public function postAuth(array &$state)
+    public function postAuth(array &$state): void
     {
-
         $consumer = $this->getConsumer($state);
 
         $return_to = \SimpleSAML\Utils\HTTP::getSelfURL();

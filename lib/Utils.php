@@ -35,12 +35,12 @@ class Utils
      * Every call to this function must be followed by a call to popErrorMask();
      *
      * @param int $mask The log levels that should be masked.
-     *
+     * @return void
      * @throws \InvalidArgumentException If $mask is not an integer.
      *
      * @author Olav Morken, UNINETT AS <olav.morken@uninett.no>
      */
-    public static function maskErrors($mask)
+    public static function maskErrors(int $mask): void
     {
         if (!is_int($mask)) {
             throw new \InvalidArgumentException('Invalid input parameters.');
@@ -61,8 +61,9 @@ class Utils
      * This function restores the previous error mask.
      *
      * @author Olav Morken, UNINETT AS <olav.morken@uninett.no>
+     * @return void
      */
-    public static function popErrorMask()
+    public static function popErrorMask(): void
     {
         $lastMask = array_pop(self::$logLevelStack);
         error_reporting($lastMask[0]);

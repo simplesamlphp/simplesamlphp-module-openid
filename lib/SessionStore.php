@@ -18,10 +18,8 @@ class SessionStore
      * @param string $key  The key we should retrieve.
      * @return mixed  The value stored with the given key, or NULL if the key isn't found.
      */
-    public function get($key)
+    public function get(string $key)
     {
-        assert(is_string($key));
-
         $session = \SimpleSAML\Session::getSessionFromRequest();
         return $session->getData('openid.session', $key);
     }
@@ -33,10 +31,8 @@ class SessionStore
      * @param string $key  The key we should save.
      * @param mixed|NULL $value  The value we should save.
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
-        assert(is_string($key));
-
         $session = \SimpleSAML\Session::getSessionFromRequest();
         $session->setData('openid.session', $key, $value);
     }
@@ -47,10 +43,8 @@ class SessionStore
      *
      * @param string $key  The key we should delete.
      */
-    public function del($key)
+    public function del(string $key): void
     {
-        assert(is_string($key));
-
         $session = \SimpleSAML\Session::getSessionFromRequest();
         $session->deleteData('openid.session', $key);
     }

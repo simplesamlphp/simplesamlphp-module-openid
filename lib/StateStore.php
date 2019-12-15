@@ -49,9 +49,12 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * This implementation accepts all nonces, and relies on the state array
      * being invalidated when login completes to prevent replay attacks.
      *
+     * @param string $server_url
+     * @param string $timestamp
+     * @param string $salt
      * @return bool  This function always returns TRUE.
      */
-    public function useNonce($server_url, $timestamp, $salt)
+    public function useNonce(string $server_url, string $timestamp, string $salt): bool
     {
         return true;
     }
@@ -67,10 +70,8 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * @param string $server_url  The server.
      * @return array  Associative array with associations.
      */
-    private function getServerAssociations($server_url)
+    private function getServerAssociations(string $server_url): array
     {
-        assert(is_string($server_url));
-
         if (!array_key_exists($server_url, $this->associations)) {
             return [];
         }
@@ -102,11 +103,8 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * @param string $handle  The handle of the association.
      * @return \Auth_OpenID_Association|NULL  The association object, if it is found.
      */
-    private function readAssociation($server_url, $handle)
+    private function readAssociation(string $server_url, string $handle)
     {
-        assert(is_string($server_url));
-        assert(is_string($handle));
-
         $sassoc = $this->getServerAssociations($server_url);
         if (!array_key_exists($handle, $sassoc)) {
             return null;
@@ -126,11 +124,8 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * @param string|NULL $handle  The association handle.
      * @return \Auth_OpenID_Association|NULL  The association object, if it is found.
      */
-    public function getAssociation($server_url, $handle = null)
+    public function getAssociation(string $server_url, string $handle = null)
     {
-        assert(is_string($server_url));
-        assert(is_null($handle) || is_string($handle));
-
         if ($handle !== null) {
             return $this->readAssociation($server_url, $handle);
         }
@@ -166,10 +161,8 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * @param \Auth_OpenID_Association $association  The association which should be stored.
      * @return bool  TRUE if the association is stored, FALSE if not.
      */
-    public function storeAssociation($server_url, $association)
+    public function storeAssociation(string $server_url,  \Auth_OpenID_Association $association): bool
     {
-        assert(is_string($server_url));
-
         if (!array_key_exists($server_url, $this->associations)) {
             $this->associations[$server_url] = [];
         }
