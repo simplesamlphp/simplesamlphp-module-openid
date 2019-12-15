@@ -8,7 +8,7 @@ $state = \SimpleSAML\Auth\State::loadState($_REQUEST['AuthState'], 'openid:auth'
 $sourceId = $state['openid:AuthId'];
 $authSource = \SimpleSAML\Auth\Source::getById($sourceId);
 if ($authSource === null) {
-    throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \''.$sourceId.'\' - not found.');
+    throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
 }
 
 try {
@@ -18,5 +18,8 @@ try {
 } catch (\SimpleSAML\Error\Exception $e) {
     \SimpleSAML\Auth\State::throwException($state, $e);
 } catch (\Exception $e) {
-    \SimpleSAML\Auth\State::throwException($state, new \SimpleSAML\Error\AuthSource($sourceId, 'Error on OpenID linkback endpoint.', $e));
+    \SimpleSAML\Auth\State::throwException(
+        $state,
+        new \SimpleSAML\Error\AuthSource($sourceId, 'Error on OpenID linkback endpoint.', $e)
+    );
 }

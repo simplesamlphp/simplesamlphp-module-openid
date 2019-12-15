@@ -10,7 +10,7 @@ $state = \SimpleSAML\Auth\State::loadState($authState, 'openid:init');
 $sourceId = $state['openid:AuthId'];
 $authSource = \SimpleSAML\Auth\Source::getById($sourceId);
 if ($authSource === null) {
-    throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \''.$sourceId.'\' - not found.');
+    throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
 }
 
 $error = null;

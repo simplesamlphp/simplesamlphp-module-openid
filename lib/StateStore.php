@@ -78,9 +78,11 @@ class StateStore extends \Auth_OpenID_OpenIDStore
 
         $ret = [];
         foreach ($this->associations[$server_url] as $handle => $association) {
-
             $association = \Auth_OpenID_Association::deserialize(
-                'Auth_OpenID_Association', $association);
+                'Auth_OpenID_Association',
+                $association
+            );
+
             if ($association === null) {
                 continue;
             }
@@ -161,7 +163,7 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * @param \Auth_OpenID_Association $association  The association which should be stored.
      * @return bool  TRUE if the association is stored, FALSE if not.
      */
-    public function storeAssociation(string $server_url,  \Auth_OpenID_Association $association): bool
+    public function storeAssociation(string $server_url, \Auth_OpenID_Association $association): bool
     {
         if (!array_key_exists($server_url, $this->associations)) {
             $this->associations[$server_url] = [];

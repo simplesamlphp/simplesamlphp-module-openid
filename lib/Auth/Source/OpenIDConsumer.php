@@ -2,9 +2,9 @@
 
 namespace SimpleSAML\Module\openid\Auth\Source;
 
-use \SimpleSAML\Module\openid\Utils;
-use \SimpleSAML\Module\openid\StateStore;
-use \SimpleSAML\Module\openid\SessionStore;
+use SimpleSAML\Module\openid\Utils;
+use SimpleSAML\Module\openid\StateStore;
+use SimpleSAML\Module\openid\SessionStore;
 
 /*
  * Disable strict error reporting, since the OpenID library
@@ -17,7 +17,9 @@ if (defined('E_DEPRECATED')) {
 }
 
 // Add the OpenID library search path.
-set_include_path(get_include_path().PATH_SEPARATOR.dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/lib');
+set_include_path(
+    get_include_path() . PATH_SEPARATOR . dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . '/lib'
+);
 
 require_once('Auth/OpenID/AX.php');
 require_once('Auth/OpenID/SReg.php');
@@ -85,8 +87,10 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         /* Call the parent constructor first, as required by the interface. */
         parent::__construct($info, $config);
 
-        $cfgParse = \SimpleSAML\Configuration::loadFromArray($config,
-            'Authentication source '.var_export($this->authId, true));
+        $cfgParse = \SimpleSAML\Configuration::loadFromArray(
+            $config,
+            'Authentication source ' . var_export($this->authId, true)
+        );
 
         $this->target = $cfgParse->getString('target', null);
         $this->realm = $cfgParse->getString('realm', null);
@@ -106,7 +110,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
 
     /**
-     * Initiate authentication. Redirecting the user to the consumer endpoint 
+     * Initiate authentication. Redirecting the user to the consumer endpoint
      * with a state Auth ID.
      *
      * @param array &$state  Information about the current authentication.
@@ -191,7 +195,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
         // No auth request means we can't begin OpenID.
         if (!$auth_request) {
-            throw new \SimpleSAML\Error\BadRequest('Not a valid OpenID: '.var_export($openid, true));
+            throw new \SimpleSAML\Error\BadRequest('Not a valid OpenID: ' . var_export($openid, true));
         }
 
         $sreg_request = \Auth_OpenID_SRegRequest::build(
@@ -215,9 +219,8 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         }
 
         if (count($ax_attribute) > 0) {
-
             // Create AX fetch request
-            $ax_request = new \Auth_OpenID_AX_FetchRequest;
+            $ax_request = new \Auth_OpenID_AX_FetchRequest();
 
             // Add attributes to AX fetch request
             foreach ($ax_attribute as $attr) {
@@ -226,7 +229,6 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
             // Add AX fetch request to authentication request
             $auth_request->addExtension($ax_request);
-
         }
 
         foreach ($this->extensionArgs as $ext_ns => $ext_arg) {
@@ -251,7 +253,10 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
             // If the redirect URL can't be built, display an error message.
             if (\Auth_OpenID::isFailure($redirect_url)) {
-                throw new \SimpleSAML\Error\AuthSource($this->authId, 'Could not redirect to server: '.var_export($redirect_url->message, true));
+                throw new \SimpleSAML\Error\AuthSource(
+                    $this->authId,
+                    'Could not redirect to server: ' . var_export($redirect_url->message, true)
+                );
             }
 
             // For OpenID 2 failover to POST if redirect URL is longer than 2048
@@ -263,15 +268,23 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
         // Generate form markup and render it.
         $form_id = 'openid_message';
-        $form_html = $auth_request->formMarkup($this->getTrustRoot(), $this->getReturnTo($stateId), false, ['id' => $form_id]);
+        $form_html = $auth_request->formMarkup(
+            $this->getTrustRoot(),
+            $this->getReturnTo($stateId),
+            false,
+            ['id' => $form_id]
+        );
 
         // Display an error if the form markup couldn't be generated; otherwise, render the HTML.
         if (\Auth_OpenID::isFailure($form_html)) {
-            throw new \SimpleSAML\Error\AuthSource($this->authId, 'Could not redirect to server: '.var_export($form_html->message, true));
+            throw new \SimpleSAML\Error\AuthSource(
+                $this->authId,
+                'Could not redirect to server: ' . var_export($form_html->message, true)
+            );
         } else {
             echo '<html><head><title>OpenID transaction in progress</title></head>
-                <body onload=\'document.getElementById("' . $form_id.'").submit()\'>'.
-                $form_html.'</body></html>';
+                <body onload=\'document.getElementById("' . $form_id . '").submit()\'>' .
+                $form_html . '</body></html>';
             exit;
         }
     }
@@ -297,10 +310,13 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
         if ($response->status == \Auth_OpenID_CANCEL) {
             // This means the authentication was cancelled.
             throw new \SimpleSAML\Error\UserAborted();
-        } else if ($response->status == \Auth_OpenID_FAILURE) {
+        } elseif ($response->status == \Auth_OpenID_FAILURE) {
             // Authentication failed; display the error message.
-            throw new \SimpleSAML\Error\AuthSource($this->authId, 'Authentication failed: '.var_export($response->message, true));
-        } else if ($response->status != \Auth_OpenID_SUCCESS) {
+            throw new \SimpleSAML\Error\AuthSource(
+                $this->authId,
+                'Authentication failed: ' . var_export($response->message, true)
+            );
+        } elseif ($response->status != \Auth_OpenID_SUCCESS) {
             throw new \SimpleSAML\Error\AuthSource($this->authId, 'General error. Try again.');
         }
 
@@ -325,8 +341,8 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
 
         if (is_array($sregresponse) && count($sregresponse) > 0) {
             $attributes['openid.sregkeys'] = array_keys($sregresponse);
-            foreach ($sregresponse AS $sregkey => $sregvalue) {
-                $attributes['openid.sreg.'.$sregkey] = [$sregvalue];
+            foreach ($sregresponse as $sregkey => $sregvalue) {
+                $attributes['openid.sreg.' . $sregkey] = [$sregvalue];
             }
         }
 
@@ -338,16 +354,16 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
             $axresponse = $ax_resp->data;
 
             $attributes['openid.axkeys'] = array_keys($axresponse);
-            foreach ($axresponse AS $axkey => $axvalue) {
+            foreach ($axresponse as $axkey => $axvalue) {
                 if (preg_match("/^\w+:/", $axkey)) {
                     $attributes[$axkey] = (is_array($axvalue)) ? $axvalue : [$axvalue];
                 } else {
-                    \SimpleSAML\Logger::warning('Invalid attribute name in AX response: '.var_export($axkey, true));
+                    \SimpleSAML\Logger::warning('Invalid attribute name in AX response: ' . var_export($axkey, true));
                 }
             }
         }
 
-        \SimpleSAML\Logger::debug('OpenID Returned Attributes: '.implode(", ", array_keys($attributes)));
+        \SimpleSAML\Logger::debug('OpenID Returned Attributes: ' . implode(", ", array_keys($attributes)));
 
         $state['Attributes'] = $attributes;
         \SimpleSAML\Auth\Source::completeAuth($state);
