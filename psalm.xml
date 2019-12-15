@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <psalm
+    hideExternalErrors="true"
     name="SimpleSAMLphp Module OpenID"
     useDocblockTypes="true"
     totallyTyped="false"
@@ -8,6 +9,10 @@
         <directory name="lib" />
         <directory name="tests" />
         <directory name="www" />
+
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
     </projectFiles>
 
     <issueHandlers>
