@@ -23,7 +23,9 @@ try {
 }
 
 $config = \SimpleSAML\Configuration::getInstance();
-$t = new \SimpleSAML\XHTML\Template($config, 'openid:consumer.php', 'openid');
+$t = new \SimpleSAML\XHTML\Template($config, 'openid:consumer.tpl.php', 'openid');
 $t->data['error'] = $error;
 $t->data['AuthState'] = $authState;
+$t->data['header'] = 'OpenID Login';
+$t->data['autofocus'] = 'openid-identifier';
 $t->show();
