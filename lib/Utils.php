@@ -42,10 +42,6 @@ class Utils
      */
     public static function maskErrors(int $mask): void
     {
-        if (!is_int($mask)) {
-            throw new \InvalidArgumentException('Invalid input parameters.');
-        }
-
         $currentEnabled = error_reporting();
         self::$logLevelStack[] = [$currentEnabled, self::$logMask];
 

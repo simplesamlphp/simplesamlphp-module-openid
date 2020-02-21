@@ -82,7 +82,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      * @param array $info  Information about this authentication source.
      * @param array $config  Configuration.
      */
-    public function __construct($info, $config)
+    public function __construct(array $info, array $config)
     {
         /* Call the parent constructor first, as required by the interface. */
         parent::__construct($info, $config);
@@ -115,7 +115,7 @@ class OpenIDConsumer extends \SimpleSAML\Auth\Source
      *
      * @param array &$state  Information about the current authentication.
      */
-    public function authenticate(&$state)
+    public function authenticate(array &$state): void
     {
         $state['openid:AuthId'] = $this->authId;
 

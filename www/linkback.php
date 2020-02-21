@@ -4,8 +4,12 @@
 if (!array_key_exists('AuthState', $_REQUEST) || empty($_REQUEST['AuthState'])) {
     throw new \SimpleSAML\Error\BadRequest('Missing mandatory parameter: AuthState');
 }
+
+/** @psalm-var array $state */
 $state = \SimpleSAML\Auth\State::loadState($_REQUEST['AuthState'], 'openid:auth');
 $sourceId = $state['openid:AuthId'];
+
+/** @psalm-var \SimpleSAML\Module\openid\Auth\Source\OpenIDConsumer|null $authSource */
 $authSource = \SimpleSAML\Auth\Source::getById($sourceId);
 if ($authSource === null) {
     throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');

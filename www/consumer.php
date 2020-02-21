@@ -6,8 +6,11 @@ if (!array_key_exists('AuthState', $_REQUEST) || empty($_REQUEST['AuthState'])) 
 }
 
 $authState = $_REQUEST['AuthState'];
+/** @psalm-var array $state */
 $state = \SimpleSAML\Auth\State::loadState($authState, 'openid:init');
 $sourceId = $state['openid:AuthId'];
+
+/** @psalm-var \SimpleSAML\Module\openid\Auth\Source\OpenIDConsumer|null $authSource */
 $authSource = \SimpleSAML\Auth\Source::getById($sourceId);
 if ($authSource === null) {
     throw new \SimpleSAML\Error\BadRequest('Invalid AuthId \'' . $sourceId . '\' - not found.');
@@ -23,9 +26,9 @@ try {
 }
 
 $config = \SimpleSAML\Configuration::getInstance();
-$t = new \SimpleSAML\XHTML\Template($config, 'openid:consumer.tpl.php', 'openid');
+$t = new \SimpleSAML\XHTML\Template($config, 'openid:consumer.twig', 'openid');
 $t->data['error'] = $error;
 $t->data['AuthState'] = $authState;
 $t->data['header'] = 'OpenID Login';
 $t->data['autofocus'] = 'openid-identifier';
-$t->show();
+$t->send();
