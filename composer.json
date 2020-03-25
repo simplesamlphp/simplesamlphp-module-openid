@@ -24,6 +24,11 @@
             "SimpleSAML\\Module\\openid\\": "lib/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
+        }
+    },
     "require": {
         "openid/php-openid": "^3.0.0",
         "simplesamlphp/composer-module-installer": "~1.1",
