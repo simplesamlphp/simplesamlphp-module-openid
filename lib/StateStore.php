@@ -126,7 +126,7 @@ class StateStore extends \Auth_OpenID_OpenIDStore
      * @param string|NULL $handle  The association handle.
      * @return \Auth_OpenID_Association|NULL  The association object, if it is found.
      */
-    public function getAssociation(string $server_url, string $handle = null): ?\Auth_OpenID_Association
+    public function getAssociation(string $server_url, string $handle = null)
     {
         if ($handle !== null) {
             return $this->readAssociation($server_url, $handle);
